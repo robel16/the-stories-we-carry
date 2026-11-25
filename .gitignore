@@ -1,0 +1,31 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+.venv*/
+venv/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Generated media
+output/*.mp4
+output/*.mov
+output/*.wav
+assets/images/*
+assets/narration/*
+assets/music/*
+
+# Keep asset directories
+!assets/images/.gitkeep
+!assets/narration/.gitkeep
+!assets/music/.gitkeep

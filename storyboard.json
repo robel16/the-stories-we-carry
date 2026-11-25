@@ -1,0 +1,134 @@
+
+{
+  "schema_version": "1.0",
+  "project": {
+    "title": "The Stories We Carry",
+    "aspect_ratio": "9:16",
+    "target_duration_seconds": 75,
+    "narration_language": "am",
+    "subtitle_language": "en",
+    "output_filename": "the_stories_we_carry.mp4"
+  },
+  "music": {
+    "path": "assets/music/ambient.wav",
+    "volume": 0.18,
+    "fade_in_seconds": 3,
+    "fade_out_seconds": 5
+  },
+  "scenes": [
+    {
+      "id": "scene-01",
+      "duration_seconds": 12.5,
+      "visual": {
+        "prompt": "Cinematic close-up of an old family photograph resting on a wooden table beside warm morning sunlight, nostalgic Ethiopian home atmosphere, realistic film photography, no visible identifiable faces",
+        "image_path": "assets/images/scene-01.png"
+      },
+      "narration": {
+        "text": "ታሪኮቻችን በምንይዘው ነገር ውስጥ ይኖራሉ።",
+        "audio_path": "assets/narration/scene-01.wav"
+      },
+      "subtitles": [
+        {
+          "start_seconds": 0,
+          "end_seconds": 10,
+          "text": "Our stories live in the things we carry."
+        }
+      ]
+    },
+    {
+      "id": "scene-02",
+      "duration_seconds": 12.5,
+      "visual": {
+        "prompt": "An elderly person's hands carefully preparing traditional Ethiopian coffee in a jebena, soft sunlight, intimate cinematic composition, detailed textures, no identifiable faces",
+        "image_path": "assets/images/scene-02.png"
+      },
+      "narration": {
+        "text": "አንዳንዶቹ በእጆቻችን የተላለፉ ትዝታዎች ናቸው።",
+        "audio_path": "assets/narration/scene-02.wav"
+      },
+      "subtitles": [
+        {
+          "start_seconds": 0,
+          "end_seconds": 10,
+          "text": "Some are memories passed down through our hands."
+        }
+      ]
+    },
+    {
+      "id": "scene-03",
+      "duration_seconds": 12.5,
+      "visual": {
+        "prompt": "Traditional Ethiopian woven basket and handmade fabric in a quiet home, rich natural textures, warm cinematic lighting, shallow depth of field, documentary photography",
+        "image_path": "assets/images/scene-03.png"
+      },
+      "narration": {
+        "text": "በትውልድ የተላለፉ እሴቶችም አሉ።",
+        "audio_path": "assets/narration/scene-03.wav"
+      },
+      "subtitles": [
+        {
+          "start_seconds": 0,
+          "end_seconds": 10,
+          "text": "Others are values passed from one generation to another."
+        }
+      ]
+    },
+    {
+      "id": "scene-04",
+      "duration_seconds": 12.5,
+      "visual": {
+        "prompt": "A quiet Ethiopian landscape at sunrise, distant mountains, a narrow walking path and soft golden mist, cinematic wide composition, natural colors, emotional documentary photography",
+        "image_path": "assets/images/scene-04.png"
+      },
+      "narration": {
+        "text": "ርቀን ብንሄድም ሥሮቻችንን አንረሳም።",
+        "audio_path": "assets/narration/scene-04.wav"
+      },
+      "subtitles": [
+        {
+          "start_seconds": 0,
+          "end_seconds": 10,
+          "text": "Even when we travel far, we never forget our roots."
+        }
+      ]
+    },
+    {
+      "id": "scene-05",
+      "duration_seconds": 12.5,
+      "visual": {
+        "prompt": "Close-up of a handwritten letter being carefully folded and placed inside an old wooden box, warm cinematic lighting, nostalgic atmosphere, realistic photography",
+        "image_path": "assets/images/scene-05.png"
+      },
+      "narration": {
+        "text": "ያለፈውን የምንሸከመው ለወደፊቱ እንድንሰጥ ነው።",
+        "audio_path": "assets/narration/scene-05.wav"
+      },
+      "subtitles": [
+        {
+          "start_seconds": 0,
+          "end_seconds": 10,
+          "text": "We carry the past so we can give something to the future."
+        }
+      ]
+    },
+    {
+      "id": "scene-06",
+      "duration_seconds": 12.5,
+      "visual": {
+        "prompt": "A beautiful sunrise illuminating an ancient Ethiopian village landscape, peaceful atmosphere, cinematic closing shot, warm golden light, emotional and hopeful documentary photography",
+        "image_path": "assets/images/scene-06.png"
+      },
+      "narration": {
+        "text": "ምክንያቱም ታሪኮቻችን የሚቀጥሉት በምንሰጠው ትርጉም ነው።",
+        "audio_path": "assets/narration/scene-06.wav"
+      },
+      "subtitles": [
+        {
+          "start_seconds": 0,
+          "end_seconds": 11,
+          "text": "Because our stories continue through the meaning we pass on."
+        }
+      ]
+    }
+  ]
+}

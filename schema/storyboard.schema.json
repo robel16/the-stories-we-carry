@@ -1,0 +1,175 @@
+
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-stories-we-carry.local/schema/storyboard.schema.json",
+  "title": "The Stories We Carry Storyboard",
+  "description": "Structured storyboard contract for the film generation pipeline.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "project",
+    "music",
+    "scenes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "aspect_ratio",
+        "target_duration_seconds",
+        "narration_language",
+        "subtitle_language",
+        "output_filename"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "aspect_ratio": {
+          "enum": ["9:16", "16:9"]
+        },
+        "target_duration_seconds": {
+          "type": "integer",
+          "minimum": 60,
+          "maximum": 90
+        },
+        "narration_language": {
+          "const": "am"
+        },
+        "subtitle_language": {
+          "const": "en"
+        },
+        "output_filename": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+\\.mp4$"
+        }
+      }
+    },
+    "music": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "volume",
+        "fade_in_seconds",
+        "fade_out_seconds"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "volume": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "fade_in_seconds": {
+          "type": "number",
+          "minimum": 0
+        },
+        "fade_out_seconds": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "scenes": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "duration_seconds",
+          "visual",
+          "narration",
+          "subtitles"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_-]*$"
+          },
+          "duration_seconds": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 30
+          },
+          "visual": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "prompt",
+              "image_path"
+            ],
+            "properties": {
+              "prompt": {
+                "type": "string",
+                "minLength": 20
+              },
+              "image_path": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "narration": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "text",
+              "audio_path"
+            ],
+            "properties": {
+              "text": {
+                "type": "string",
+                "minLength": 1
+              },
+              "audio_path": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "subtitles": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "start_seconds",
+                "end_seconds",
+                "text"
+              ],
+              "properties": {
+                "start_seconds": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "end_seconds": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "text": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
