@@ -1,0 +1,2 @@
+file 'C:/project/the-stories-we-carry/outputs/video/body_9x16.mp4'
+file 'C:/project/the-stories-we-carry/outputs/video/end_card_9x16.mp4'

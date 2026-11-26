@@ -20,8 +20,8 @@
       "id": "scene-01",
       "duration_seconds": 12.5,
       "visual": {
-        "prompt": "Cinematic close-up of an old family photograph resting on a wooden table beside warm morning sunlight, nostalgic Ethiopian home atmosphere, realistic film photography, no visible identifiable faces",
-        "image_path": "assets/images/scene-01.png"
+        "prompt": "Cinematic vertical photograph of an old, faded sepia family photograph resting on a wooden table in a traditional Ethiopian home . The people inside the photograph appear only as soft blurry east africa dark brown people , indistinct silhouettes with no visible facial features. Warm golden morning sunlight streams through a window, illuminating the photograph, woven Ethiopian textiles and a traditional clay vase. Nostalgic atmosphere, rich natural textures, shallow depth of field, realistic cinematic film photography, intimate storytelling, warm amber and earthy tones, 9:16 portrait composition.",
+        "image_path": "assets/images/scene-01-refined.png"
       },
       "narration": {
         "text": "ታሪኮቻችን በምንይዘው ነገር ውስጥ ይኖራሉ።",
@@ -96,7 +96,7 @@
       "id": "scene-05",
       "duration_seconds": 12.5,
       "visual": {
-        "prompt": "Close-up of a handwritten letter being carefully folded and placed inside an old wooden box, warm cinematic lighting, nostalgic atmosphere, realistic photography",
+        "prompt": "Close-up cinematic photograph of a handwritten letter on aged cream paper being folded inside an old wooden box, warm golden lighting, nostalgic atmosphere, realistic photography. The paper is written by hand in dark ink in authentic Amharic Ethiopic Ge'ez script reading: ያለፈውን የምንሸከመው ለወደፊቱ እንድንሰጥ ነው። ታሪኮቻችን በምንይዘው ነገር ውስጥ ይኖራሉ። No English or Latin text.",
         "image_path": "assets/images/scene-05.png"
       },
       "narration": {

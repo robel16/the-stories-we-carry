@@ -1,0 +1,6 @@
+file 'C:/project/the-stories-we-carry/outputs/video/scene-01.mp4'
+file 'C:/project/the-stories-we-carry/outputs/video/scene-02.mp4'
+file 'C:/project/the-stories-we-carry/outputs/video/scene-03.mp4'
+file 'C:/project/the-stories-we-carry/outputs/video/scene-04.mp4'
+file 'C:/project/the-stories-we-carry/outputs/video/scene-05.mp4'
+file 'C:/project/the-stories-we-carry/outputs/video/scene-06.mp4'
