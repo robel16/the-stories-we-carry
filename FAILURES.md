@@ -23,3 +23,11 @@
 6. **PowerShell 5.1 Command Chaining (`&&` Parse Error)**
    - *What broke*: `&&` is invalid in Windows PowerShell 5.1.
    - *Fix*: Used `;` for sequential commands in PowerShell and provided `Makefile` / `python -m pipeline.cli film` as cross-platform entrypoints.
+
+7. **ACE-Step 1.5 Python 3.13 / `nano-vllm` Build Failure on Kaggle**
+   - *What broke*: Kaggle's runtime uses Python 3.13.16, while `ACE-Step-1.5` requires `<3.13,>=3.11` and depends on `nano-vllm`, which has no wheel for Python 3.13.
+   - *Fix*: Removed `ace-step` from the Kaggle notebook dependencies so it wouldn't block GPU video generation, and retained the procedural ambient score (`pipeline/music.py`) with FFmpeg sidechain ducking and `-14 LUFS` normalization.
+
+8. **Wan 2.2 TI2V-5B Diffusers Repo 404 & Kernel OOM During VAE Decode**
+   - *What broke*: Loading `Wan-AI/Wan2.2-TI2V-5B` via `WanImageToVideoPipeline` raised `404 Entry Not Found` (`model_index.json`), and running 81 frames at 30 steps on Kaggle 2× T4 caused a kernel restart (RAM/VRAM OOM) right after step 30/30 during VAE decoding.
+   - *Fix*: Switched to `Wan-AI/Wan2.2-TI2V-5B-Diffusers` with `torch.float16`, enabled `pipe.vae.enable_tiling()`, reduced to `NUM_FRAMES=49` and `num_inference_steps=20`, and added `gc.collect()` + `torch.cuda.empty_cache()` after each shot (with per-shot disk saving so completed shots are skipped on resume).

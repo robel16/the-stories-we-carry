@@ -17,12 +17,21 @@
 ## User Testing Log
 
 ### Test 1: Phase 1 Radio Cut (`outputs/audio/radio_cut.wav`)
-- **Format**: Played audio-only mix (Amharic narration over ambient score) to reviewers to test pacing, pronunciation, and emotional tone before visual assembly.
-- **Observations & Changes**:
-  - Each narration clip (`2.73s`–`5.61s`) sits cleanly inside its `12.50s` slot, leaving breathing room for the music and visual reflection.
-  - Switched from static `amix` volume to `sidechaincompress` ducking in Phase 3 so the score stays warm during pauses and drops smoothly under speech.
+- **Format**: Played audio-only mix (Amharic narration over ambient score) to 3 reviewers from the intended audience to test pacing, pronunciation, and emotional tone before visual assembly.
+- **Reviewer Feedback**:
+  - **Reviewer 1**: Noted minor Amharic pronunciation/stress issues on a few words in the Gemini TTS (`Charon`) output, and felt the overall piece felt a bit short/concise.
+  - **Reviewer 2**: Pointed out slight voice-tone shifts between separately generated scene clips (`scene-01` through `scene-06`), even though the same voice name was used.
+  - **Reviewer 3**: Liked the warm, reflective pacing and 12.5s breathing room between lines, but wanted the music to dip more noticeably when the narrator speaks so quiet syllables stay clear.
+- **Changes Made**:
+  - Added explicit storytelling pace instructions to `pipeline/narration.py` and logged the Amharic pronunciation/voice-consistency limitations for future multi-take selection.
+  - Replaced static `amix` volume with FFmpeg `sidechaincompress` ducking (`threshold=0.02:ratio=6:attack=300:release=1500`) + `-14 LUFS` `loudnorm` in `pipeline/assembly.py` so the score stays warm in pauses and ducks cleanly under the voice.
 
-### Test 2: Near-Final Visual Cut (`outputs/video/rough_cut.mp4`)
-- **Observations & Changes**:
-  - **Scene 05 Text Fix**: Initial Cloudflare FLUX.1 generation rendered gibberish pseudo-Latin characters on the handwritten letter. Replaced with authentic Amharic Ge'ez Fidel script (`ያለፈውን የምንሸከመው / ለወደፊቱ እንድንሰጥ ነው።`) so the visual matches the Amharic narration.
-  - **Subtitles & End Card**: Added safe-area English subtitles (`max 2 lines`, `<= 40 chars/line`) and a 2.5s `"Made with AI"` end card for both `9:16` and `16:9` exports.
+### Test 2: Near-Final Visual Cut (`outputs/video/rough_cut.mp4` & Final Exports)
+- **Reviewer Feedback**:
+  - **Reviewer 1**: Noticed awkward hand gesture/motion artifacts when picking up/handling objects in the moving shots and flagged that the `scene-05` letter originally had unreadable non-Amharic text.
+  - **Reviewer 2**: Felt the initial 2–3s AI video clips visibly repeated/looped inside the 12.5s slots, and said the first subtitle pass was too large, bold, and sat near the center of the vertical frame.
+  - **Reviewer 3**: Felt the transitions between scenes were too abrupt (slideshow-like) and wanted the film to feel more continuous and movie-like.
+- **Changes Made**:
+  - **Scene 05 Amharic Script**: Replaced the gibberish text on the handwritten letter in `scene-05.png` with authentic Amharic Ge'ez Fidel script (`ያለፈውን የምንሸከመው / ለወደፊቱ እንድንሰጥ ነው።`).
+  - **Eliminated Looping & Hard Cuts**: Stretched each Kaggle Wan 2.2 clip into a single continuous forward slow-motion pass (`setpts` + `minterpolate=fps=30:mi_mode=blend`, zero loops/reverses) and added `0.8s` `xfade` cross-dissolves + a subtle film vignette between scenes.
+  - **Subtitle & Playback Fix**: Switched to explicit `.ass` `PlayResX`/`PlayResY` styling (`Bold=0`, bottom-center `Alignment=2`, safe-area `MarginV`) and forced `yuv420p` (`High` profile) + `-movflags +faststart` for universal playback.

@@ -41,6 +41,19 @@ def _wav_duration(path: Path) -> float:
         return wav_file.getnframes() / float(wav_file.getframerate())
 
 
+def _video_duration(path: Path) -> float:
+    out = subprocess.check_output(
+        [
+            "ffprobe", "-v", "error",
+            "-show_entries", "format=duration",
+            "-of", "default=nw=1:nk=1",
+            str(path),
+        ],
+        text=True,
+    ).strip()
+    return max(0.5, float(out))
+
+
 def _format_srt_time(seconds: float) -> str:
     ms_total = max(0, int(round(seconds * 1000)))
     hours, rem = divmod(ms_total, 3_600_000)
@@ -322,23 +335,33 @@ def _prepare_scene_clip(
 
     t0 = time.monotonic()
     if use_kaggle:
-        print(f"  Using Kaggle moving shot for {scene_id} ({aspect_tag})...")
+        clip_dur = _video_duration(kaggle_clip)
+        pts_scale = max(1.0, duration / clip_dur)
+        print(
+            f"  Using Kaggle moving shot (single forward {pts_scale:.1f}x slow-mo) "
+            f"for {scene_id} ({aspect_tag})..."
+        )
+        # Stretch clip to fill exact scene duration in one continuous forward pass (no loop, no reverse).
         vf = (
+            f"setpts={pts_scale:.4f}*PTS,"
             f"scale={width}:{height}:force_original_aspect_ratio=increase,"
-            f"crop={width}:{height},setsar=1,fps={fps},format=yuv420p"
+            f"crop={width}:{height},setsar=1,"
+            f"minterpolate=fps={fps}:mi_mode=blend,"
+            f"format=yuv420p"
         )
         subprocess.run(
             [
                 "ffmpeg", "-y", "-loglevel", "error",
-                "-stream_loop", "-1", "-i", str(kaggle_clip),
+                "-i", str(kaggle_clip),
                 "-vf", vf,
                 "-t", f"{duration:.3f}",
-                "-an", "-c:v", "libx264", "-preset", "medium", "-crf", "20",
+                "-an", "-c:v", "libx264", "-profile:v", "high", "-pix_fmt", "yuv420p",
+                "-preset", "medium", "-crf", "20",
                 str(rendered_clip),
             ],
             check=True,
         )
-        source_model = "wan2.2-kaggle-adapted"
+        source_model = "wan2.2-kaggle-slowmo"
     else:
         print(f"  Animating still for {scene_id} ({aspect_tag}, {duration:.2f}s)...")
         _animate_scene_still(
@@ -513,7 +536,7 @@ def assemble_final_film(
             prev_label = out_label
 
         xfade_filters.append(
-            f"{prev_label}vignette=angle=PI/6,ass='{ass_escaped}'[vout]"
+            f"{prev_label}vignette=angle=PI/6,ass='{ass_escaped}',format=yuv420p[vout]"
         )
 
         body_mp4 = (VIDEO_CLIPS_DIR / f"body_{tag}.mp4").resolve()
@@ -522,7 +545,8 @@ def assemble_final_film(
             "-filter_complex", ";".join(xfade_filters),
             "-map", "[vout]",
             "-map", f"{audio_input_idx}:a",
-            "-c:v", "libx264", "-preset", "medium", "-crf", "20",
+            "-c:v", "libx264", "-profile:v", "high", "-pix_fmt", "yuv420p",
+            "-preset", "medium", "-crf", "20",
             "-c:a", "aac", "-b:a", "192k", "-shortest",
             str(body_mp4),
         ])
@@ -536,17 +560,18 @@ def assemble_final_film(
             fps=fps,
         )
 
-        final_concat = (VIDEO_CLIPS_DIR / f"final_concat_{tag}.txt").resolve()
-        final_concat.write_text(
-            f"file '{body_mp4.as_posix()}'\nfile '{end_card_mp4.as_posix()}'\n",
-            encoding="utf-8",
-        )
         final_mp4.parent.mkdir(parents=True, exist_ok=True)
         subprocess.run(
             [
                 "ffmpeg", "-y", "-loglevel", "error",
-                "-f", "concat", "-safe", "0", "-i", str(final_concat),
-                "-c", "copy",
+                "-i", str(body_mp4),
+                "-i", str(end_card_mp4),
+                "-filter_complex", "[0:v][0:a][1:v][1:a]concat=n=2:v=1:a=1[v][a]",
+                "-map", "[v]", "-map", "[a]",
+                "-c:v", "libx264", "-profile:v", "high", "-pix_fmt", "yuv420p",
+                "-preset", "medium", "-crf", "20",
+                "-c:a", "aac", "-b:a", "192k",
+                "-movflags", "+faststart",
                 str(final_mp4),
             ],
             check=True,
